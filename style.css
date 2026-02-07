@@ -1,129 +1,157 @@
-/* ===== 기본 리셋 ===== */
+/* 기본 리셋 */
 * {
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
+body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f6f8;
+  color: #222;
 }
 
-/* ===== 테마 변수 ===== */
-:root {
-  --bg: #ffffff;
-  --text: #111;
-  --card: #f4f4f4;
-  --btn: #222;
-  --btn-text: #fff;
-}
-
+/* 다크모드 */
 body.dark {
-  --bg: #121212;
-  --text: #eee;
-  --card: #1e1e1e;
-  --btn: #eee;
-  --btn-text: #111;
+  background: #121212;
+  color: #f1f1f1;
 }
 
-/* ===== 전체 레이아웃 ===== */
-body {
-  background: var(--bg);
-  color: var(--text);
-}
-
+/* 앱 컨테이너 */
 #app {
   min-height: 100vh;
   max-width: 480px;
   margin: 0 auto;
-  padding: 20px;
-
+  padding: 16px;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== 상단 영역 ===== */
+/* 헤더 */
 header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;   /* ← 두 줄 */
   align-items: center;
-}
-
-header h1 {
-  font-size: 28px;
-  margin: 0;
-}
-
-#darkToggle {
-  background: none;
-  border: 1px solid var(--text);
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  color: var(--text);
-}
-
-/* ===== 단어 카드 ===== */
-#card {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 40px 20px;
-  margin-top: 40px;
-
-  text-align: center;
-}
-
-#word {
-  font-size: 42px;
-  font-weight: 700;
+  gap: 8px;
   margin-bottom: 20px;
 }
 
-#meaning {
-  font-size: 24px;
-  opacity: 0.85;
+header h1 {
+  margin: 0;
+  text-align: center;
 }
 
-/* ===== 진행도 ===== */
+#darkToggle {
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* 시작 화면 */
+#startScreen {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#startBtn {
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  background: #4a6cf7;
+  color: white;
+  cursor: pointer;
+}
+
+/* 퀴즈 화면 */
+#quizScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 진행도 */
 #progress {
-  margin-top: 20px;
   text-align: center;
-  font-size: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
   opacity: 0.7;
 }
 
-/* ===== 아래 버튼 영역 ===== */
-#bottom-area {
-  margin-top: auto; /* 핵심 */
-  padding-top: 40px;
+/* 단어 */
+#word {
+  text-align: center;       /* ← 가운데 */
+  font-size: 28px;
+  margin: 20px 0;
+}
 
+/* 보기 영역 */
+#choices {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  gap: 14px;                /* ← 여유 */
+  margin-bottom: 30px;
 }
 
-/* ===== 버튼 ===== */
-button {
-  width: 100%;
-  max-width: 320px;
-  padding: 16px;
+.choice {
+  padding: 14px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: white;
   font-size: 18px;
-  font-weight: 600;
-
-  border: none;
-  border-radius: 12px;
   cursor: pointer;
-
-  background: var(--btn);
-  color: var(--btn-text);
 }
 
-/* ===== 완주 메시지 ===== */
+body.dark .choice {
+  background: #1e1e1e;
+  border-color: #444;
+}
+
+/* 정답 / 오답 */
+.choice.correct {
+  border-color: #2ecc71;
+}
+
+.choice.wrong {
+  border-color: #e74c3c;
+}
+
+/* 하단 버튼 영역 */
+.bottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 다음 버튼 */
+#nextBtn {
+  padding: 14px 24px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background: #27ae60;   /* ← 색 다르게 */
+  color: white;
+  cursor: pointer;
+}
+
+/* 처음으로 버튼 */
+#restartBtn {
+  padding: 14px 24px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background: #555;
+  color: white;
+  cursor: pointer;
+}
+
+/* 완주 */
 #finish {
-  font-size: 32px;
-  font-weight: 700;
   text-align: center;
-  margin-top: 40px;
+  font-size: 26px;
+  margin-bottom: 20px;
 }
 
