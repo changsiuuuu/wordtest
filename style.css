@@ -107,7 +107,9 @@ header h1 {
 body.dark .choice {
   background: #1e1e1e;
   border-color: #444;
+  color: #f1f1f1;
 }
+
 
 /* 정답 / 오답 */
 .choice.correct {
@@ -154,4 +156,5 @@ body.dark .choice {
   font-size: 26px;
   margin-bottom: 20px;
 }
+
 
