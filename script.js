@@ -22,6 +22,30 @@ fetch("words.json")
     allWordsByDay = data;
   });
 
+
+const daySelect = document.getElementById("daySelect");
+
+fetch("words.json")
+  .then(res => res.json())
+  .then(data => {
+    allWordsByDay = data;
+    renderDayCheckboxes(data);
+  });
+
+function renderDayCheckboxes(data) {
+  daySelect.innerHTML = "";
+
+  Object.keys(data).forEach(day => {
+    const label = document.createElement("label");
+    label.innerHTML = `
+      <input type="checkbox" value="${day}">
+      ${day.toUpperCase()}
+    `;
+    daySelect.appendChild(label);
+  });
+}
+
+
 /* 시작 버튼 */
 startBtn.addEventListener("click", () => {
   const checked = document.querySelectorAll(
@@ -123,6 +147,7 @@ function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
+
 
 
 
