@@ -1,141 +1,128 @@
-// ===== DOM =====
+let allWordsByDay = {};
+let quizWords = [];
+let currentIndex = 0;
+let currentAnswer = "";
+let total = 0;
 
-
+const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("startScreen");
 const quizScreen = document.getElementById("quizScreen");
-const startBtn = document.getElementById("startBtn");
 const wordEl = document.getElementById("word");
 const choicesEl = document.getElementById("choices");
 const nextBtn = document.getElementById("nextBtn");
 const progressEl = document.getElementById("progress");
+const errorMsg = document.getElementById("errorMsg");
 
-// ===== 상태 =====
-let words = [];
-let currentIndex = 0;
-let correctMeaning = "";
+errorMsg.style.display = "none";
 
-// ===== 유틸 =====
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-// ===== JSON 로드 =====
+/* 데이터 불러오기 */
 fetch("words.json")
   .then(res => res.json())
   .then(data => {
-    words = data;
-    shuffleArray(words);
-  })
-  .catch(err => {
-    alert("words.json 불러오기 실패");
-    console.error(err);
+    allWordsByDay = data;
   });
 
-// ===== 시작 =====
+/* 시작 버튼 */
 startBtn.addEventListener("click", () => {
-  if (words.length === 0) {
-    alert("단어 로딩 중이다. 잠깐만 기다려라");
+  const checked = document.querySelectorAll(
+    ".day-select input[type='checkbox']:checked"
+  );
+
+  if (checked.length === 0) {
+    errorMsg.style.display = "block";
     return;
   }
 
+  errorMsg.style.display = "none";
+
+  quizWords = [];
+  checked.forEach(cb => {
+    quizWords = quizWords.concat(allWordsByDay[cb.value]);
+  });
+
+  shuffle(quizWords);
+
+  total = quizWords.length;
   currentIndex = 0;
+
   startScreen.style.display = "none";
   quizScreen.style.display = "block";
-  nextBtn.style.display = "none";
 
-  showWord();
+  showQuestion();
 });
 
-// ===== 문제 표시 =====
-function showWord() {
-  if (currentIndex >= words.length) {
-    showComplete();
-    return;
-  }
+/* 문제 출력 */
+function showQuestion() {
+  const current = quizWords[currentIndex];
+  currentAnswer = current.meaning;
 
-  const current = words[currentIndex];
+  progressEl.textContent = `${currentIndex + 1} / ${total}`;
   wordEl.textContent = current.word;
-  correctMeaning = current.meaning;
-
-  progressEl.textContent =
-    `진행도: ${currentIndex + 1} / ${words.length}`;
 
   choicesEl.innerHTML = "";
   nextBtn.style.display = "none";
 
-  const meanings = words
-    .map(w => w.meaning)
-    .filter(m => m !== correctMeaning);
+  let options = [current.meaning];
 
-  shuffleArray(meanings);
+  while (options.length < 4) {
+    const rand = quizWords[Math.floor(Math.random() * quizWords.length)].meaning;
+    if (!options.includes(rand)) options.push(rand);
+  }
 
-  const options = meanings.slice(0, 3);
-  options.push(correctMeaning);
-  shuffleArray(options);
+  shuffle(options);
 
-  options.forEach(text => {
+  options.forEach(opt => {
     const btn = document.createElement("button");
     btn.className = "choice";
-    btn.textContent = text;
-
-    btn.addEventListener("click", () => selectAnswer(btn, text));
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(btn, opt);
     choicesEl.appendChild(btn);
   });
 }
 
-// ===== 정답 처리 =====
-function selectAnswer(btn, selected) {
+/* 정답 체크 */
+function checkAnswer(btn, selected) {
   const buttons = document.querySelectorAll(".choice");
   buttons.forEach(b => b.disabled = true);
 
-  buttons.forEach(b => {
-    if (b.textContent === correctMeaning) {
-      b.style.border = "2px solid green";
-    }
-  });
-
-  if (selected !== correctMeaning) {
-    btn.style.border = "2px solid red";
+  if (selected === currentAnswer) {
+    btn.classList.add("correct");
+  } else {
+    btn.classList.add("wrong");
+    buttons.forEach(b => {
+      if (b.textContent === currentAnswer) {
+        b.classList.add("correct");
+      }
+    });
   }
 
   nextBtn.style.display = "block";
 }
 
-// ===== 다음 =====
+/* 다음 버튼 */
 nextBtn.addEventListener("click", () => {
   currentIndex++;
-  showWord();
-});
 
-// ===== 완주 =====
-function showComplete() {
-  wordEl.textContent = "완주!";
-  progressEl.textContent = "";
-  choicesEl.innerHTML = "";
-
-  nextBtn.textContent = "처음으로";
-  nextBtn.style.display = "block";
-
-  nextBtn.onclick = () => location.reload();
-}
-
-const darkToggle = document.getElementById("darkToggle");
-
-darkToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-
-  if (document.body.classList.contains("dark")) {
-    darkToggle.textContent = "☀️";
-  } else {
-    darkToggle.textContent = "🌙";
+  if (currentIndex >= total) {
+    wordEl.textContent = "완주!";
+    choicesEl.innerHTML = "";
+    nextBtn.textContent = "처음으로";
+    nextBtn.onclick = () => location.reload();
+    nextBtn.style.display = "block";
+    progressEl.textContent = "";
+    return;
   }
+
+  showQuestion();
 });
 
-
-
+/* 셔플 */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
 
 
 
