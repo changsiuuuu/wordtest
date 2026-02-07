@@ -10,21 +10,41 @@
 <body>
   <div id="app">
 
+    <!-- 상단 -->
+    <header>
+      <h1>영단어 테스트</h1>
+      <button id="darkToggle">🌙</button>
+    </header>
+
     <!-- 시작 화면 -->
     <div id="startScreen">
-      <h2>영단어 테스트</h2>
-      <button id="startBtn">시작</button>
+      <div id="card">
+        <div id="word">단어 테스트</div>
+        <div id="meaning">시작 버튼을 눌러주세요</div>
+      </div>
+
+      <div id="bottom-area">
+        <button id="startBtn">시작</button>
+      </div>
     </div>
 
     <!-- 퀴즈 화면 -->
     <div id="quizScreen" style="display:none;">
       <div id="progress"></div>
-      <h2 id="word"></h2>
-      <div id="choices"></div>
-      <button id="nextBtn" style="display:none;">다음</button>
+
+      <div id="card">
+        <div id="word"></div>
+        <div id="meaning"></div>
+      </div>
+
+      <div id="finish" style="display:none;">완주!</div>
+
+      <div id="bottom-area">
+        <button id="nextBtn">다음</button>
+        <button id="restartBtn" style="display:none;">처음으로</button>
+      </div>
     </div>
 
   </div>
 </body>
 </html>
-
