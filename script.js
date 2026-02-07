@@ -1,5 +1,5 @@
 // ===== DOM =====
-console.log("startBtn:", startBtn);
+
 
 const startScreen = document.getElementById("startScreen");
 const quizScreen = document.getElementById("quizScreen");
@@ -121,6 +121,7 @@ function showComplete() {
 
   nextBtn.onclick = () => location.reload();
 }
+
 
 
 
