@@ -10,33 +10,29 @@
 <body>
   <div id="app">
 
-    <!-- 헤더 -->
-    <header>
-      <h1>영단어 테스트</h1>
-      <button id="darkToggle">🌙</button>
-    </header>
-
     <!-- 시작 화면 -->
     <div id="startScreen">
+      <h1>영단어 테스트</h1>
+
+      <div class="day-select">
+        <label><input type="checkbox" value="day1"> DAY 1</label>
+        <label><input type="checkbox" value="day2"> DAY 2</label>
+      </div>
+
+      <p id="errorMsg">최소 한 개 이상의 DAY를 선택하세요.</p>
+
       <button id="startBtn">시작</button>
     </div>
 
     <!-- 퀴즈 화면 -->
     <div id="quizScreen" style="display:none;">
       <div id="progress"></div>
-
       <h2 id="word"></h2>
-
       <div id="choices"></div>
-
-      <div id="finish" style="display:none;">완주!</div>
-
-      <div class="bottom">
-        <button id="nextBtn" style="display:none;">다음</button>
-        <button id="restartBtn" style="display:none;">처음으로</button>
-      </div>
+      <button id="nextBtn" style="display:none;">다음</button>
     </div>
 
   </div>
 </body>
 </html>
+
