@@ -1,100 +1,102 @@
-// 1. 단어 데이터
-let words = [];
+// script.js
 
+let words = [];
+let filteredWords = [];
+let currentIndex = 0;
+
+// DOM
+const startScreen = document.getElementById("startScreen");
+const quizScreen = document.getElementById("quizScreen");
+
+const wordEl = document.getElementById("word");
+const meaningEl = document.getElementById("meaning");
+const nextBtn = document.getElementById("nextBtn");
+const restartBtn = document.getElementById("restartBtn");
+const progressEl = document.getElementById("progress");
+
+const categoryForm = document.getElementById("categoryForm");
+
+// JSON 불러오기
 fetch("words.json")
   .then(res => res.json())
   .then(data => {
     words = data;
-    showWord();
+  })
+  .catch(err => {
+    console.error("단어 로딩 실패", err);
   });
 
+// 시작 버튼
+categoryForm.addEventListener("submit", e => {
+  e.preventDefault();
 
-// 2. 상태 변수
-let currentIndex = 0;
-let answered = false;
+  const checked = [...document.querySelectorAll("input[type=checkbox]:checked")]
+    .map(cb => cb.value);
 
-// 3. DOM 요소 가져오기
-const wordDiv = document.getElementById("word");
-const choicesDiv = document.getElementById("choices");
-const nextBtn = document.getElementById("nextBtn");
+  filteredWords = words.filter(w => checked.includes(w.category));
 
-// 4. 화면에 문제 표시
-function showWord() {
-  answered = false;
-  choicesDiv.innerHTML = "";
-
-  const currentWord = words[currentIndex];
-  const correctMeaning = currentWord.meaning;
-
-  wordDiv.textContent = currentWord.word;
-
-  // 오답 후보 만들기
-  const wrongMeanings = words
-    .filter((_, idx) => idx !== currentIndex)
-    .map(w => w.meaning);
-
-  shuffleArray(wrongMeanings);
-
-  const choices = [
-    correctMeaning,
-    wrongMeanings[0],
-    wrongMeanings[1],
-    wrongMeanings[2]
-  ];
-
-  shuffleArray(choices);
-
-  // 보기 생성
-  choices.forEach(choice => {
-    const div = document.createElement("div");
-    div.textContent = choice;
-    div.className = "choice";
-
-    div.addEventListener("click", () => {
-      if (answered) return;
-      answered = true;
-
-      if (choice === correctMeaning) {
-        div.classList.add("correct");
-      } else {
-        div.classList.add("wrong");
-        highlightCorrect(correctMeaning);
-      }
-    });
-
-    choicesDiv.appendChild(div);
-  });
-}
-
-// 5. 다음 버튼
-nextBtn.addEventListener("click", () => {
-  currentIndex++;
-
-  if (currentIndex >= words.length) {
-    alert("완주!");
-    currentIndex = 0;
+  if (filteredWords.length === 0) {
+    alert("단어를 하나 이상 선택해라");
+    return;
   }
+
+  shuffleArray(filteredWords);
+  
+  currentIndex = 0;
+  startScreen.style.display = "none";
+  quizScreen.style.display = "block";
+  restartBtn.style.display = "none";
 
   showWord();
 });
 
-// 6. 배열 섞기 함수
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
+// 단어 표시
+function showWord() {
+  const item = filteredWords[currentIndex];
+  wordEl.textContent = item.word;
+  meaningEl.textContent = item.meaning;
+  updateProgress();
+}
+
+// 진행도
+function updateProgress() {
+  progressEl.textContent = `${currentIndex + 1} / ${filteredWords.length}`;
+}
+
+// 다음
+nextBtn.addEventListener("click", () => {
+  currentIndex++;
+
+  if (currentIndex >= filteredWords.length) {
+    finishQuiz();
+  } else {
+    showWord();
+  }
+});
+
+// 완주 처리
+function finishQuiz() {
+  wordEl.textContent = "🎉 완주!";
+  meaningEl.textContent = "수고했다. 처음부터 다시 할 수 있다.";
+  progressEl.textContent = `${filteredWords.length} / ${filteredWords.length}`;
+
+  nextBtn.style.display = "none";
+  restartBtn.style.display = "inline-block";
+}
+
+// 처음으로
+restartBtn.addEventListener("click", () => {
+  quizScreen.style.display = "none";
+  startScreen.style.display = "block";
+
+  nextBtn.style.display = "inline-block";
+  restartBtn.style.display = "none";
+});
+
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-// 7. 정답 강조
-function highlightCorrect(correctMeaning) {
-  const choiceEls = document.querySelectorAll(".choice");
-  choiceEls.forEach(el => {
-    if (el.textContent === correctMeaning) {
-      el.classList.add("correct");
-    }
-  });
-}
-
-// 8. 최초 실행
-showWord();
