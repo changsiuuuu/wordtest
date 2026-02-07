@@ -122,6 +122,13 @@ function showComplete() {
   nextBtn.onclick = () => location.reload();
 }
 
+const darkToggle = document.getElementById("darkToggle");
+
+darkToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
+
 
 
 
