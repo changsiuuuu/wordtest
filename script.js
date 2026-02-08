@@ -80,8 +80,9 @@ function limitSelection() {
 /* 시작 버튼 */
 startBtn.addEventListener("click", () => {
   const checked = document.querySelectorAll(
-    ".day-select input[type='checkbox']:checked"
-  );
+  "#daySelect input:checked"
+);
+
 
   if (checked.length === 0) {
     errorMsg.style.display = "block";
@@ -187,6 +188,7 @@ darkToggle.addEventListener("click", () => {
   darkToggle.textContent =
     document.body.classList.contains("dark") ? "☀️" : "🌙";
 });
+
 
 
 
