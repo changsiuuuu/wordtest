@@ -140,21 +140,20 @@ body {
    ========================= */
 #quizScreen {
   width: 100%;
-  min-height: 100vh;
-
+  min-height: 90dvh;          /* 모바일 주소창 이슈 완화 */
   display: flex;
   flex-direction: column;
-
   justify-content: center;
-  align-items: center;
-
+  gap: 16px;                  /* 위아래 여백 체감 */
+  padding: 16px;              /* 좌우 여백 고정 */
   text-align: center;
 }
 
 #quizScreen > * {
-  width: 100%;
-  max-width: 360px;
+  width: min(360px, 100%);   /* 화면이 좁으면 100%, 넓으면 360px */
+  margin: 0 auto;            /* 항상 중앙 */
 }
+
 
 
 #progress {
@@ -210,6 +209,7 @@ body {
   justify-content: center;
   gap: 12px;
 }
+
 
 
 
