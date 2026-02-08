@@ -140,18 +140,21 @@ body {
    ========================= */
 #quizScreen {
   width: 100%;
-  min-height: 90dvh;          /* 모바일 주소창 이슈 완화 */
+  min-height: 100dvh;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 16px;                  /* 위아래 여백 체감 */
-  padding: 16px;              /* 좌우 여백 고정 */
+
+  padding-top: 10vh;
+  padding-bottom: 5vh;
+
+  gap: 16px;
   text-align: center;
 }
 
 #quizScreen > * {
-  width: min(360px, 100%);   /* 화면이 좁으면 100%, 넓으면 360px */
-  margin: 0 auto;            /* 항상 중앙 */
+  width: min(360px, 92%);
+  margin: 0 auto;
 }
 
 
@@ -167,6 +170,7 @@ body {
   text-align: center;
   font-size: 28px;
   margin: 20px 0;
+   margin-top: 4vh;
 }
 
 /* Choices */
@@ -209,6 +213,7 @@ body {
   justify-content: center;
   gap: 12px;
 }
+
 
 
 
