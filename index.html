@@ -10,14 +10,23 @@
 <body>
   <div id="app">
 
-    <!-- 시작 화면 -->
     <div id="startScreen">
-      <h1>영단어 테스트</h1>
 
-      <div class="day-select" id="daySelect"></div>
+      <!-- 헤더 -->
+      <div class="header">
+        <h1>영단어 테스트</h1>
+        <button id="darkToggle">🌙</button>
+      </div>
 
-<p id="errorMsg">최소 한 개 이상의 DAY를 선택하세요.</p>
-<button id="startBtn">시작</button>
+      <!-- DAY 선택 (스크롤 영역) -->
+      <div class="day-container" id="daySelect"></div>
+
+      <p id="errorMsg">DAY는 최대 4개까지 선택할 수 있습니다.</p>
+
+      <!-- 하단 고정 -->
+      <div class="footer">
+        <button id="startBtn">시작</button>
+      </div>
 
     </div>
 
@@ -32,5 +41,3 @@
   </div>
 </body>
 </html>
-
-
