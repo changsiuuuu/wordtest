@@ -45,6 +45,37 @@ function renderDayCheckboxes(data) {
   });
 }
 
+function renderDayCheckboxes(data) {
+  daySelect.innerHTML = "";
+
+  Object.keys(data).forEach(day => {
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+
+    checkbox.type = "checkbox";
+    checkbox.value = day;
+
+    checkbox.addEventListener("change", limitSelection);
+
+    label.appendChild(checkbox);
+    label.append(` ${day.toUpperCase()}`);
+    daySelect.appendChild(label);
+  });
+}
+
+function limitSelection() {
+  const checked = document.querySelectorAll(
+    ".day-container input:checked"
+  );
+
+  if (checked.length > 4) {
+    this.checked = false;
+    errorMsg.style.display = "block";
+  } else {
+    errorMsg.style.display = "none";
+  }
+}
+
 
 /* 시작 버튼 */
 startBtn.addEventListener("click", () => {
@@ -148,6 +179,14 @@ function shuffle(arr) {
   }
 }
 
+
+const darkToggle = document.getElementById("darkToggle");
+
+darkToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  darkToggle.textContent =
+    document.body.classList.contains("dark") ? "☀️" : "🌙";
+});
 
 
 
