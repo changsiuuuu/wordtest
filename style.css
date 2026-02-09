@@ -220,6 +220,15 @@ margin-top: 2vh;
   gap: 12px;
 }
 
+.wrong-item {
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--choice-border);
+  background: var(--card);
+  text-align: left;
+}
+
 
 
 
