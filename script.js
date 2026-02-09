@@ -221,6 +221,7 @@ function showResult() {
   const resultSummary = document.getElementById("resultSummary");
   const wrongBox = document.getElementById("wrongBox");
   const restartBtn = document.getElementById("restartBtn");
+  quizScreen.classList.add("resultMode");
 
  
   const percent = Math.round((correctCount / total) * 100);
@@ -247,6 +248,7 @@ function showResult() {
 
   restartBtn.onclick = () => location.reload();
 }
+
 
 
 
