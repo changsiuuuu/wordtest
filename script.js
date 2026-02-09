@@ -227,13 +227,17 @@ function showResult() {
   resultSummary.textContent = `정답: ${correctCount} / ${total} (${percent}%)`;
 
   if (wrongList.length === 0) {
-    wrongBox.innerHTML = "<p>틀린 단어 없음 🎉</p>";
+    wrongBox.innerHTML = `
+  <div class="wrong-item" style="text-align:center;">
+    틀린 단어 없음 🎉
+  </div>
+`;
   } else {
     wrongBox.innerHTML = wrongList.map((w, i) => `
       <div class="wrong-item">
         <div><strong>${i + 1}. ${w.word}</strong></div>
         <div>정답: ${w.meaning}</div>
-        <div style="opacity:0.7;">내 답: ${w.picked}</div>
+        
       </div>
     `).join("");
   }
@@ -243,6 +247,7 @@ function showResult() {
 
   restartBtn.onclick = () => location.reload();
 }
+
 
 
 
