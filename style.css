@@ -141,6 +141,7 @@ body {
 #quizScreen {
   width: 100%;
   min-height: 100dvh;
+   height: 100vh;
 
   display: flex;
   flex-direction: column;
@@ -231,8 +232,7 @@ margin-top: 2vh;
 
 /* ===== Result Screen Layout ===== */
 #resultScreen {
-  width: 100%;
-  height: 90vh;
+  height: 100%;         /* 🔥 이게 중요: 부모 높이를 그대로 받음 */
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -251,12 +251,12 @@ margin-top: 2vh;
 }
 
 /* 틀린 단어 영역만 스크롤 */
-#wrongWrap {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  background: var(--card);
-  border-radius: 12px;
+#resultScreen {
+  height: 100%;         /* 🔥 이게 중요: 부모 높이를 그대로 받음 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
 }
 
 /* 카드 사이 여유 + 버튼과 간격 확보 */
@@ -278,8 +278,10 @@ margin-top: 2vh;
 
 /* 버튼 아래쪽 여유 */
 .resultFooter {
-  padding-top: 12px; /* 카드랑 버튼 붙는 느낌 방지 */
+  margin-top: auto;     /* 🔥 footer를 맨 아래로 밀기 */
+  padding-top: 12px;
 }
+
 
 
 
