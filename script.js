@@ -3,6 +3,10 @@ let quizWords = [];
 let currentIndex = 0;
 let currentAnswer = "";
 let total = 0;
+let correctCount = 0;
+let wrongList = [];
+let answered = false;
+
 
 const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("startScreen");
@@ -100,6 +104,13 @@ startBtn.addEventListener("click", () => {
 
   total = quizWords.length;
   currentIndex = 0;
+  correctCount = 0;
+wrongList = [];
+nextBtn.textContent = "다음";
+nextBtn.onclick = null;
+
+document.getElementById("resultScreen").style.display = "none";
+
 
   startScreen.style.display = "none";
   quizScreen.style.display = "block";
@@ -117,6 +128,8 @@ function showQuestion() {
 
   choicesEl.innerHTML = "";
   nextBtn.style.display = "none";
+  answered = false;
+
 
   let options = [current.meaning];
 
@@ -138,36 +151,44 @@ function showQuestion() {
 
 /* 정답 체크 */
 function checkAnswer(btn, selected) {
+  if (answered) return;      
+  answered = true;
+
   const buttons = document.querySelectorAll(".choice");
   buttons.forEach(b => b.disabled = true);
 
+  const current = quizWords[currentIndex];
+
   if (selected === currentAnswer) {
+    correctCount++;
     btn.classList.add("correct");
   } else {
     btn.classList.add("wrong");
+
+    wrongList.push({
+      word: current.word,
+      meaning: current.meaning,
+      picked: selected
+    });
+
     buttons.forEach(b => {
-      if (b.textContent === currentAnswer) {
-        b.classList.add("correct");
-      }
+      if (b.textContent === currentAnswer) b.classList.add("correct");
     });
   }
 
   nextBtn.style.display = "block";
 }
 
+
 /* 다음 버튼 */
 nextBtn.addEventListener("click", () => {
   currentIndex++;
 
   if (currentIndex >= total) {
-    wordEl.textContent = "완주!";
-    choicesEl.innerHTML = "";
-    nextBtn.textContent = "처음으로";
-    nextBtn.onclick = () => location.reload();
-    nextBtn.style.display = "block";
-    progressEl.textContent = "";
-    return;
-  }
+  showResult();
+  return;
+}
+
 
   showQuestion();
 });
@@ -188,6 +209,41 @@ darkToggle.addEventListener("click", () => {
   darkToggle.textContent =
     document.body.classList.contains("dark") ? "☀️" : "🌙";
 });
+
+function showResult() {
+  
+  progressEl.style.display = "none";
+  wordEl.style.display = "none";
+  choicesEl.style.display = "none";
+  nextBtn.style.display = "none";
+
+  const resultScreen = document.getElementById("resultScreen");
+  const resultSummary = document.getElementById("resultSummary");
+  const wrongBox = document.getElementById("wrongBox");
+  const restartBtn = document.getElementById("restartBtn");
+
+ 
+  const percent = Math.round((correctCount / total) * 100);
+  resultSummary.textContent = `정답: ${correctCount} / ${total} (${percent}%)`;
+
+  if (wrongList.length === 0) {
+    wrongBox.innerHTML = "<p>틀린 단어 없음 🎉</p>";
+  } else {
+    wrongBox.innerHTML = wrongList.map((w, i) => `
+      <div class="wrong-item">
+        <div><strong>${i + 1}. ${w.word}</strong></div>
+        <div>정답: ${w.meaning}</div>
+        <div style="opacity:0.7;">내 답: ${w.picked}</div>
+      </div>
+    `).join("");
+  }
+
+ 
+  resultScreen.style.display = "block";
+
+  restartBtn.onclick = () => location.reload();
+}
+
 
 
 
