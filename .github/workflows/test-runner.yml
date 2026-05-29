@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted 
     
     steps:
-      - name: 1. 접속된 서버의 호스트네임 확인
+      - name: 1. 접속된 서버의 호스트네임 확인 테스트
         run: hostname
         
       - name: 2. 실행 중인 사용자 계정 확인
